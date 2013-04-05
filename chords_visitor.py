@@ -3,7 +3,7 @@ from chord import Chord
 from chords import Chords
 
 
-class ChordsVisitor(object):
+class ChordsDump(object):
 
     def __init__(self):
         self._used_chords = []

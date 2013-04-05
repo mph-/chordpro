@@ -5,7 +5,9 @@ class Chords(object):
     def __init__(self):
 
         self.chords = {}
-        
+
+        # Most of these chord definitions are from the chord program
+        # by Martin Leclerc & Mario Dorion.
 	self.add(Chord('Ab', '1 3 3 2 1 1', 4, Chord.HARD))
         self.add(Chord('Ab+', '- - 2 1 1 0', 1, Chord.HARD))
         self.add(Chord('Ab4', '- - 1 1 2 4', 1, Chord.HARD))
@@ -397,3 +399,8 @@ class Chords(object):
         self.chords[chord.name] = chord
                            
                  
+    def find(self, chordname):
+        
+        if chordname not in self.chords.keys():
+            return Chord(chordname, '? ? ? ? ? ?', 1)
+        return self.chords[chordname]

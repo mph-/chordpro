@@ -74,8 +74,9 @@ def dispatch(parsed, visitor):
         else:
             visit(type, *val)
 
-def show(parsed, visitor_class, *args):
-    visitor = visitor_class(*args)
+def show(parsed, visitor_class, *args, **kwargs):
+
+    visitor = visitor_class(*args, **kwargs)
     dispatch(parsed, visitor)
     return visitor.result()
 

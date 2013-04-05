@@ -4,10 +4,12 @@ from chords import Chords
 
 class ChordsDump(object):
 
-    def __init__(self, frets=False, gchord=True):
+    def __init__(self, frets=False, format='gchord'):
         self._used_chords = []
         self._chords = Chords()
         self._frets = frets
+        self._format = format
+
 
     def visit_define(self, text):
         c = text.split(' ', 1)
@@ -19,6 +21,7 @@ class ChordsDump(object):
 
         self._chords.add(Chord(chordname, c[3], c[1]))
 
+
     def visit_line(self, chords):
         line = ''
         for chord, text in chords:
@@ -27,10 +30,11 @@ class ChordsDump(object):
             if chord not in ('/', 'N.C.') and chord not in self._used_chords:
                 self._used_chords.append(chord)
 
+
     def result(self):
 
         if self._frets:
-            return '\n'.join([self._chords.find(chordname).format() for chordname in self._used_chords]) + '\n'
+            return '\n'.join([self._chords.find(chordname).format(self._format) for chordname in self._used_chords]) + '\n'
 
         return ' '.join(self._used_chords) + '\n'
 

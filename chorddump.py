@@ -16,5 +16,5 @@ if __name__ == '__main__':
     file = codecs.open(args.filename, encoding='utf-8')
     parsed = parse(file)
 
-    sys.stdout.write(show(parsed, ChordsDump, frets=True))
+    sys.stdout.write(show(parsed, ChordsDump, frets=True, format='simple'))
 
