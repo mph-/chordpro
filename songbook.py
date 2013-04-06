@@ -1,3 +1,5 @@
+from tex_visitor import _MyTemplate
+
 class Songbook(object):
 
     def __init__(self, file):
@@ -10,6 +12,8 @@ class Songbook(object):
         self.songs = []
         
         self.parse(file)
+
+        self._template = _MyTemplate(open('songbook_template.tex').read())
 
 
     def parse_directive(self, line):
@@ -24,12 +28,13 @@ class Songbook(object):
 
         d = s[0].strip()
 
+        # Parse chordpack directives.
         if d == 'titlestyle':
             self._titlestyle = s[1]
         elif d == 'columns':
             self._columns = s[1]
         elif d == 'songbooktitle':
-            self._songbooktitle = s[1]
+            self._songbooktitle = s[1].replace('^', '\\\\\n')
         elif d == 'toc':
             self._toc = True
         elif d == 'subtitles_on':
@@ -59,3 +64,13 @@ class Songbook(object):
             self.parse_line(line)
         
 
+    def make(self, text):
+
+        return self._template.substitute(
+            title=self._songbooktitle,
+            songs=text)
+
+        
+
+
+        

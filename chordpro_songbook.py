@@ -22,13 +22,15 @@ if __name__ == '__main__':
 
     songbook = Songbook(file)
 
+    text = ''
     for song in songbook.songs:
 
         file = codecs.open(os.path.join(dirname, song), encoding='utf-8') 
         parsed = parse(file)
 
-        out.write(show(parsed, TexVisitor, template='song_template.tex'))
-        
+        text += show(parsed, TexVisitor, template='song_template.tex')
+
+    out.write(songbook.make(text))
 
         
 
