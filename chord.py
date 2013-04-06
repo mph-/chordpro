@@ -55,6 +55,10 @@ class Chord(object):
         return '\chord{' + modifier + '}{' + ','.join([fretformat(fret) for fret in self._frets]) + '}{' + self.texname() + '}'
 
 
+    def _format_texchord(self):
+        return self._format_gchord().replace('chord', 'drawchord')
+
+
     def _format_chordpro(self):
 
         return '{define %s base-fret %s frets %s}' % (self.name, self._base_fret, ' '.join(self._frets))
@@ -65,9 +69,11 @@ class Chord(object):
         return self.name + ': ' + ' '.join([fretmap(fret, self._base_fret) for fret in self._frets])
 
 
-    def format(self, format='gchord'):
+    def format(self, format='texchord'):
 
-        if format == 'gchord':
+        if format == 'texchord':
+            return self._format_texchord()
+        elif format == 'gchord':
             return self._format_gchord()
         elif format == 'chordpro':
             return self._format_chordpro()

@@ -71,7 +71,7 @@ class TexVisitor(object):
                     self._used_chords.append(chord)
 
                 if text.isspace() or len(text) == 0:
-                    line.append("\guitarChord{%s}%s" %
+                    line.append("\showchord{%s}%s" %
                             (chord + "|", "{ }" * len(text))
                             )
                     if last:
@@ -87,13 +87,13 @@ class TexVisitor(object):
                             chord += "|"
                             text = "{%s}" % text
 
-                    line.append("\guitarChord{%s}%s" % (chord, text))
+                    line.append("\showchord{%s}%s" % (chord, text))
 
         self._result.append("".join(line) + ('' if self._intab else '\\\\'))
 
     def result(self):
 
-        chords = '\n'.join([self._chords.find(chordname).format('gchord') for chordname in self._used_chords]) + '\n'
+        chords = '\n'.join([self._chords.find(chordname).format() for chordname in self._used_chords]) + '\n'
 
         return self._template.substitute(
                block="\n".join(self._result),
