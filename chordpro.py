@@ -4,7 +4,6 @@
 from parser import *
 from ascii_visitor import *
 from chordpro_visitor import *
-from chords_visitor import *
 from transpose_visitor import *
 from tex_visitor import *
 from xml_visitor import *
@@ -26,7 +25,6 @@ if __name__ == '__main__':
     visitor = {
             "ascii": AsciiVisitor,
             "chordpro": ChordproVisitor,
-            "chords": ChordsVisitor,
             "xml": XmlVisitor,
             "tex": TexVisitor
         }
