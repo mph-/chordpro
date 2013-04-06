@@ -52,24 +52,24 @@ class TexVisitor(object):
         self._subtitle = subtitle
 
     def visit_c(self, comment):
-        self._result.append("\\textbf{%s}\\\\" % comment)
+        self._result.append("\\comment{%s}\\\\" % comment)
     
     def visit_ci(self, comment):
-        self._result.append("\\textit{%s}" % comment)
+        self._result.append("\\commenti{%s}" % comment)
 
     def visit_soc(self):
-        self._result.append("\\textbf{Chorus}\\begin{textit}")
+        self._result.append("\\begin{chorus}")
 
     def visit_eoc(self):
-        self._result.append("\\end{textit}")
+        self._result.append("\\end{chorus}")
 
     def visit_sot(self):
         self._intab = True
-        self._result.append("\\begin{verbatim}")
+        self._result.append("\\begin{tab}")
 
     def visit_eot(self):
         self._intab = False
-        self._result.append("\\end{verbatim}")
+        self._result.append("\\end{tab}")
 
     def visit_nl(self):
         self._result.append("")
@@ -111,7 +111,7 @@ class TexVisitor(object):
 
     def result(self):
 
-        chords = '\n'.join([self._chords.find(chordname).format() for chordname in self._used_chords]) + '\n'
+        chords = '\n'.join([self._chords.find(chordname).format() for chordname in self._used_chords])
 
         return self._template.substitute(
                block="\n".join(self._result),

@@ -1,7 +1,9 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,11pt]{article}
 \usepackage{guitar}
 \usepackage{gchords}
 \usepackage{palatino}
+\usepackage{verbatim}
+
 
 \textwidth=17cm
 \hoffset=-2.5cm
@@ -14,6 +16,10 @@
 \title{§title}
 \author{}
 \date{}
+
+\newenvironment{tab}{\verbatim}{\endverbatim}
+\renewcommand{\comment}[1]{\textbf{#1}}
+\newcommand{\commenti}[1]{\textit{#1}}
 
 
 \newcounter{chordcount}
