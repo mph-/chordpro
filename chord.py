@@ -41,7 +41,7 @@ class Chord(object):
 
     def texname(self):
 
-        return self.name.replace('#', '$\sharp$').replace('b', '$\flat$')
+        return self.name.replace('#', '$\\sharp$').replace('b', '$\\flat$')
 
 
     def _format_gchord(self):
