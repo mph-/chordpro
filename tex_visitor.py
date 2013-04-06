@@ -46,7 +46,7 @@ class TexVisitor(object):
         self._subtitle = subtitle
 
     def visit_c(self, comment):
-        self._result.append("\\textbf{%s}" % comment)
+        self._result.append("\\textbf{%s}\\\\" % comment)
     
     def visit_ci(self, comment):
         self._result.append("\\textit{%s}" % comment)
