@@ -1,6 +1,8 @@
 # -*- encoding: utf-8
 
 from string import Template
+from chord import Chord
+from chords import Chords
 
 def indicate_last(iterable):
     i = 0
@@ -22,6 +24,20 @@ class TexVisitor(object):
         self._title = ""
         self._subtitle = ""
         self._intab = False
+        self._chords = Chords()
+        self._used_chords = []
+
+    def visit_d(self, text):
+        import sys
+
+        c = text.split(' ', 1)
+        chordname = c[0]
+
+        c = c[1].split(' ', 3)
+        if c[0] != 'base-fret' or c[2] != 'frets':
+            sys.stderr.write('Invalid define format: ' + text)
+
+        self._chords.add(Chord(chordname, c[3], c[1]))
 
     def visit_t(self, title):
         self._title = title
@@ -50,6 +66,10 @@ class TexVisitor(object):
             if chord is None:
                 line.append(text)
             else:
+
+                if chord not in ('/', 'N.C.') and chord not in self._used_chords:
+                    self._used_chords.append(chord)
+
                 if text.isspace() or len(text) == 0:
                     line.append("\guitarChord{%s}%s" %
                             (chord + "|", "{ }" if last else " ")
@@ -69,10 +89,14 @@ class TexVisitor(object):
         self._result.append("".join(line))
 
     def result(self):
-       return self._template.substitute(
+
+        chords = '\n'.join([self._chords.find(chordname).format('gchord') for chordname in self._used_chords]) + '\n'
+
+        return self._template.substitute(
                block="\n".join(self._result),
                title=self._title,
                subtitle=self._subtitle,
                diagrams="",
+               chords=chords
                )
 
