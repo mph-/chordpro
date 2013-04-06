@@ -63,6 +63,14 @@ class TexVisitor(object):
     def visit_eoc(self):
         self._result.append("\\end{textit}")
 
+    def visit_sot(self):
+        self._intab = True
+        self._result.append("\\begin{verbatim}")
+
+    def visit_eot(self):
+        self._intab = False
+        self._result.append("\\end{verbatim}")
+
     def visit_nl(self):
         self._result.append("")
 
