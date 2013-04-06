@@ -5,11 +5,12 @@ def fretmap(fret, base_fret):
     return fret
 
 
-def fretmap2(fret, base_fret):
+def fretformat(fret):
 
     if fret in ('-', '?', 'x'):
         return 'n'
-    fretnum = int(fret) + base_fret - 1
+
+    fretnum = int(fret)
     if fretnum == 0:
         return 'n'
     if fretnum > 9:
@@ -51,7 +52,7 @@ class Chord(object):
         else:
             modifier = '{%d}' % self._base_fret
 
-        return '\chord{' + modifier + '}{' + ','.join([fretmap2(fret, self._base_fret) for fret in self._frets]) + '}{' + self.texname() + '}'
+        return '\chord{' + modifier + '}{' + ','.join([fretformat(fret) for fret in self._frets]) + '}{' + self.texname() + '}'
 
 
     def _format_chordpro(self):
