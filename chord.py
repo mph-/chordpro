@@ -5,20 +5,6 @@ def fretmap(fret, base_fret):
     return fret
 
 
-def fretformat(fret):
-
-    if fret in ('-', '?', 'x'):
-        return 'n'
-
-    fretnum = int(fret)
-    if fretnum == 0:
-        return 'n'
-    if fretnum > 9:
-        return 'p{%d}' % fretnum
-        
-    return 'p%d' % fretnum
-
-
 class Chord(object):
 
     EASY = 0
@@ -26,7 +12,7 @@ class Chord(object):
     USER = 2
 
     def __init__(self, name, fretsstr, base_fret, chordtype=USER):
-        self.name = name
+        self.name = name.strip()
         self._base_fret = int(base_fret) if type(base_fret) != 'int' else base_fret
         self._frets = fretsstr.strip(' ').split(' ')
         self._type = chordtype
@@ -44,6 +30,23 @@ class Chord(object):
         return self.name.replace('#', '$\\sharp$').replace('b', '$\\flat$')
 
 
+    def _format_fret(self, fret):
+
+        if fret == 'x':
+            return fret
+        if fret in ('-', '?'):
+            return 'x'
+
+        fretnum = int(fret)
+        if fretnum == 0 and self._base_fret == 1:
+            return 'o'
+
+        if fretnum > 9:
+            return 'p{%d}' % fretnum
+        
+        return 'p%d' % fretnum
+
+
     def _format_gchord(self):
         if self._base_fret == 1:
             modifier = 't'
@@ -52,7 +55,7 @@ class Chord(object):
         else:
             modifier = '{%d}' % self._base_fret
 
-        return '\chord{' + modifier + '}{' + ','.join([fretformat(fret) for fret in self._frets]) + '}{' + self.texname() + '}'
+        return '\chord{' + modifier + '}{' + ','.join([self._format_fret(fret) for fret in self._frets]) + '}{' + self.texname() + '}'
 
 
     def _format_texchord(self):
@@ -78,6 +81,3 @@ class Chord(object):
         elif format == 'chordpro':
             return self._format_chordpro()
         return self._format_simple()
-
-        
-
