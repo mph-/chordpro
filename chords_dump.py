@@ -12,14 +12,21 @@ class ChordsDump(object):
 
 
     def visit_d(self, text):
-        c = text.split(' ', 1)
+        import sys
+
+        c = text.split('base-fret', 1)
+        if len(c) != 2:
+            sys.stderr.write('Invalid define format: ' + text + '\n')
+            return
+
         chordname = c[0]
 
-        c = c[1].split(' ', 3)
-        if c[0] != 'base-fret' or c[2] != 'frets':
-            sys.stderr.write('Invalid define format: ' + text)
+        c = c[1].split('frets', 1)
+        if len(c) != 2:
+            sys.stderr.write('Invalid define format: ' + text + '\n')
+            return
 
-        self._chords.add(Chord(chordname, c[3], c[1]))
+        self._chords.add(Chord(chordname, c[1], c[0]))
 
 
     def visit_line(self, chords):
