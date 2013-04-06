@@ -11,7 +11,7 @@ class ChordsDump(object):
         self._format = format
 
 
-    def visit_define(self, text):
+    def visit_d(self, text):
         c = text.split(' ', 1)
         chordname = c[0]
 
