@@ -77,6 +77,10 @@ class TexVisitor(object):
     def visit_line(self, chords):
         line = []
         for last, (chord, text) in indicate_last(chords):
+
+            # Escape common symbols.
+            text = text.replace('$', '\\$').replace('_', '\\_')
+
             if chord is None:
                 line.append(text)
             else:
