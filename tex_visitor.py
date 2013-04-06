@@ -21,6 +21,7 @@ class TexVisitor(object):
         self._template = _MyTemplate(template)
         self._title = ""
         self._subtitle = ""
+        self._intab = False
 
     def visit_t(self, title):
         self._title = title
