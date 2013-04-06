@@ -18,7 +18,8 @@ class TexVisitor(object):
     def __init__(self, template=None):
 
         if not template:
-            template = open("template.tex").read()
+            template = "template.tex"
+        template = open(template).read()
         self._result = []
         self._template = _MyTemplate(template)
         self._title = ""
