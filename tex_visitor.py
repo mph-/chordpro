@@ -35,7 +35,7 @@ class TexVisitor(object):
 
         c = c[1].split(' ', 3)
         if c[0] != 'base-fret' or c[2] != 'frets':
-            sys.stderr.write('Invalid define format: ' + text)
+            sys.stderr.write('Invalid define format: ' + text + '\n')
 
         self._chords.add(Chord(chordname, c[3], c[1]))
 
