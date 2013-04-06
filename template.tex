@@ -1,0 +1,42 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{guitar}
+\usepackage{gchords}
+\usepackage{palatino}
+
+\textwidth=17cm
+\hoffset=-2.5cm
+\textheight=26cm
+\voffset=-3cm
+\columnsep=0.07\columnwidth
+
+\setlength{\parindent}{0pt}
+
+\def\guitarSharp{$^{\sharp}$}
+\def\guitarFlat{$^{\flat}$}
+
+\newcommand{\songtitle}[2]{
+\begin{minipage}{\columnwidth}%
+\addcontentsline{toc}{subsection}{#1}%
+\rule{\textwidth}{.5ex}\\[1.3ex]
+{\LARGE \sf\bfseries #1\\[0.2ex]}%
+{\it #2}%
+\bigskip
+\end{minipage}\nopagebreak[4]\par\nopagebreak[4]}
+
+
+\newcounter{chordcount}
+\newcommand{\drawchord}[3]{%
+\stepcounter{chordcount}\chord{#1}{#2}{#3}&
+\ifnum\value{chordcount} > 7 \\\setcounter{chordcount}{1}\fi
+}
+
+\def\showchord{\guitarChord}
+
+\begin{document}
+\songtitle{§title}{§subtitle}
+§block
+
+\begin{tabular}{@{}lllllllll}
+§chords  
+\end{tabular}
+\end{document}
