@@ -18,7 +18,8 @@ class TexVisitor(object):
     def __init__(self, template=None):
 
         if not template:
-            template = open("template.tex").read()
+            template = "template.tex"
+        template = open(template).read()
         self._result = []
         self._template = _MyTemplate(template)
         self._title = ""
@@ -30,14 +31,19 @@ class TexVisitor(object):
     def visit_d(self, text):
         import sys
 
-        c = text.split(' ', 1)
+        c = text.split('base-fret', 1)
+        if len(c) != 2:
+            sys.stderr.write('Invalid define format: ' + text + '\n')
+            return
+
         chordname = c[0]
 
-        c = c[1].split(' ', 3)
-        if c[0] != 'base-fret' or c[2] != 'frets':
-            sys.stderr.write('Invalid define format: ' + text)
+        c = c[1].split('frets', 1)
+        if len(c) != 2:
+            sys.stderr.write('Invalid define format: ' + text + '\n')
+            return
 
-        self._chords.add(Chord(chordname, c[3], c[1]))
+        self._chords.add(Chord(chordname, c[1], c[0]))
 
     def visit_t(self, title):
         self._title = title
@@ -57,12 +63,24 @@ class TexVisitor(object):
     def visit_eoc(self):
         self._result.append("\\end{textit}")
 
+    def visit_sot(self):
+        self._intab = True
+        self._result.append("\\begin{verbatim}")
+
+    def visit_eot(self):
+        self._intab = False
+        self._result.append("\\end{verbatim}")
+
     def visit_nl(self):
         self._result.append("")
 
     def visit_line(self, chords):
         line = []
         for last, (chord, text) in indicate_last(chords):
+
+            # Escape common symbols.
+            text = text.replace('$', '\\$').replace('_', '\\_')
+
             if chord is None:
                 line.append(text)
             else:
