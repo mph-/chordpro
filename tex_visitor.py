@@ -119,7 +119,8 @@ class TexVisitor(object):
 
     def result(self):
 
-        chords = '\n'.join([self._chords.find(chordname).format() for chordname in self._used_chords])
+        chordlist = [self._chords.find(chordname) for chordname in sorted(self._used_chords)]
+        chords = '\n'.join([chord.format() for chord in chordlist if chord != None]) + '\n'
 
         return self._template.substitute(
                block="\n".join(self._result),

@@ -41,7 +41,8 @@ class ChordsDump(object):
     def result(self):
 
         if self._frets:
-            return '\n'.join([self._chords.find(chordname).format(self._format) for chordname in self._used_chords]) + '\n'
+            chordlist = [self._chords.find(chordname) for chordname in sorted(self._used_chords)]
+            return '\n'.join([chord.format() for chord in chordlist if chord != None]) + '\n'
 
         return ' '.join(self._used_chords) + '\n'
 

@@ -402,5 +402,5 @@ class Chords(object):
     def find(self, chordname):
         
         if chordname not in self.chords.keys():
-            return Chord(chordname, '? ? ? ? ? ?', 1)
+            return None
         return self.chords[chordname]
