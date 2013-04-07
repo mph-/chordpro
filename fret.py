@@ -1,13 +1,17 @@
 class Fret(object):
 
+    UNPLAYED = '-'
+    MUTED = 'x'
+    OPEN = 0
+
     def __init__(self, fret, base_fret=1):
 
-        # Convert relative fret to an absolute fret with -2 unplayed, -1 muted, and 0 open.
+        # Convert relative fret to an absolute fret.
         fret = fret.strip()
         if fret == '-':
-            fretnum = -2
+            fretnum = Fret.UNPLAYED
         elif fret.lower() == 'x':
-            fretnum = -1
+            fretnum = Fret.MUTED
         else:
             fretnum = int(fret)
             if fretnum != 0:
@@ -23,11 +27,12 @@ class Fret(object):
 
     def format(self, base_fret=1):
 
-        if self.fret == -2:
+        if self.fret == Fret.UNPLAYED:
             return '-'
-        if self.fret == -1:
+        if self.fret == Fret.MUTED:
             return 'x'
 
+        # Return absolute fret number if base_fret is zero.
         if base_fret == 0:
             return '%d' % self.fret
 
@@ -37,11 +42,11 @@ class Fret(object):
 
     def format_gchord(self, base_fret=1):
 
-        if self.fret == -2:
+        if self.fret == Fret.UNPLAYED:
             return 'n'
-        if self.fret == -1:
+        if self.fret == Fret.MUTED:
             return 'x'
-        if self.fret == 0:
+        if self.fret == Fret.OPEN:
             return 'o'
 
         fret = self.fret - base_fret + 1
