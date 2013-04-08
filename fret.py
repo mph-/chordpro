@@ -25,12 +25,14 @@ class Fret(object):
         return self.format()
 
 
-    def format(self, base_fret=1):
+    def format(self, base_fret=1, unplayed='-', muted='x'):
 
         if self.fret == Fret.UNPLAYED:
-            return '-'
+            return unplayed
         if self.fret == Fret.MUTED:
-            return 'x'
+            return muted
+        if self.fret == Fret.OPEN:
+            return '0'
 
         # Return absolute fret number if base_fret is zero.
         if base_fret == 0:

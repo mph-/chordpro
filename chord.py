@@ -41,6 +41,11 @@ class Chord(object):
         return self.name.replace('#', '$\\sharp$').replace('b', '$\\flat$')
 
 
+    def _format_frets(self, separator=' ', unplayed='-'):
+
+        return separator.join([fret.format(self._base_fret, unplayed=unplayed) for fret in self._frets])
+
+
     def _format_gchord(self):
         if self._base_fret == 1:
             modifier = 't'
@@ -54,20 +59,20 @@ class Chord(object):
 
     def _format_texchord(self):
 
-        return '\drawchord{' + self.texname() + '}{%d}{' % (self._base_fret) + ','.join([fret.format(self._base_fret) for fret in self._frets]) + '}'
-
-        return self._format_gchord().replace('chord', 'drawchord')
+        fretsstr = self._format_frets(separator=',')
+        print fretsstr
+        return '\drawchord{%s}{%d}{%s}' % (self.name, self._base_fret, fretsstr)
 
 
     def _format_chordpro(self):
 
-        fretsstr = ' '.join([fret.format(self._base_fret) for fret in self._frets])
+        fretsstr = self._format_frets()
         return '{define %s base-fret %s frets %s}' % (self.name, self._base_fret, fretsstr)
 
 
     def _format_songs(self):
 
-        fretsstr = ''.join([fret.format(self._base_fret) for fret in self._frets]).replace('-', 'x')
+        fretsstr = self._format_frets(separator='', unplayed='x')
         return '\gtab{%s}{%d:%s}' % (self.name, self._base_fret, fretsstr)
 
 
