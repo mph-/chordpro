@@ -54,36 +54,30 @@ class Chord(object):
         else:
             modifier = '{%d}' % self._base_fret
 
-        return '\chord{' + modifier + '}{' + ','.join([fret.format_gchord(self._base_fret) for fret in self._frets]) + '}{' + self.texname() + '}'
+        return '\chord{%s}{%s}{%s}' % (modifier, ','.join([fret.format_gchord(self._base_fret) for fret in self._frets]), self.texname())
 
 
     def _format_texchord(self):
-
         fretsstr = self._format_frets(separator=',')
-        print fretsstr
         return '\drawchord{%s}{%d}{%s}' % (self.name, self._base_fret, fretsstr)
 
 
     def _format_chordpro(self):
-
         fretsstr = self._format_frets()
         return '{define %s base-fret %s frets %s}' % (self.name, self._base_fret, fretsstr)
 
 
     def _format_songs(self):
-
         fretsstr = self._format_frets(separator='', unplayed='x')
         return '\gtab{%s}{%d:%s}' % (self.name, self._base_fret, fretsstr)
 
 
     def _format_simple(self):
-
         fretsstr = ' '.join([fret.format(0) for fret in self._frets])
         return '%s: %s' % (self.name, fretsstr)
 
 
     def format(self, format='texchord'):
-
         if format == 'texchord':
             return self._format_texchord()
         elif format == 'gchord':
