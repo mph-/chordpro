@@ -53,6 +53,9 @@ class Chord(object):
 
 
     def _format_texchord(self):
+
+        return '\drawchord{' + self.texname() + '}{%d}{' % (self._base_fret) + ','.join([fret.format(self._base_fret) for fret in self._frets]) + '}'
+
         return self._format_gchord().replace('chord', 'drawchord')
 
 
@@ -60,6 +63,12 @@ class Chord(object):
 
         fretsstr = ' '.join([fret.format(self._base_fret) for fret in self._frets])
         return '{define %s base-fret %s frets %s}' % (self.name, self._base_fret, fretsstr)
+
+
+    def _format_songs(self):
+
+        fretsstr = ''.join([fret.format(self._base_fret) for fret in self._frets]).replace('-', 'x')
+        return '\gtab{%s}{%d:%s}' % (self.name, self._base_fret, fretsstr)
 
 
     def _format_simple(self):
@@ -76,6 +85,8 @@ class Chord(object):
             return self._format_gchord()
         elif format == 'chordpro':
             return self._format_chordpro()
+        elif format == 'songs':
+            return self._format_songs()
         return self._format_simple()
 
         
